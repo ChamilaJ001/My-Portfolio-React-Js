@@ -2,9 +2,14 @@ import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Leaf1, Leaf2 } from "../assets";
 import { ProjectsData } from "../utils/helper";
-import { FaGithub } from "react-icons/fa6";
+import { FaGithub, FaSquareUpRight } from "react-icons/fa6";
 
 const Projects = () => {
+  const [isSeeMore, setIsSeeMore] = useState(false);
+
+  function handleToggle() {
+    setIsSeeMore((isSeeMore) => !isSeeMore);
+  }
   return (
     <section
       id="projects"
@@ -30,12 +35,25 @@ const Projects = () => {
       {/* main content */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 w-full">
         <AnimatePresence>
-          {ProjectsData &&
+          {!isSeeMore &&
+            ProjectsData &&
+            ProjectsData.slice(0, 6).map((project, index) => (
+              <ProjectCard key={project.id} project={project} />
+            ))}
+          {isSeeMore &&
+            ProjectsData &&
             ProjectsData.map((project, index) => (
               <ProjectCard key={project.id} project={project} />
             ))}
         </AnimatePresence>
       </div>
+      <p
+        className="text-texlight cursor-pointer hover:text-primary"
+        onClick={handleToggle}
+      >
+        {isSeeMore && "Show less"}
+        {!isSeeMore && "Show more"}
+      </p>
     </section>
   );
 };
@@ -58,9 +76,16 @@ const ProjectCard = ({ project }) => {
       {isHoverred && (
         <motion.div className="absolute inset-0 backdrop-blur-md bg-[rgba(0,0,0,0.6)] flex items-center justify-center flex-col gap-2">
           <p className="text-xl text-primary">{project.name}</p>
-          <a href={project?.gitURL}>
-            <FaGithub className="text-3xl text-white hover:text-primary" />
-          </a>
+          <div className="flex gap-4">
+            <a href={project?.gitURL} target="_blank">
+              <FaGithub className="text-3xl text-white hover:text-primary" />
+            </a>
+            {project.websiteURL && (
+              <a href={project?.websiteURL} target="_blank">
+                <FaSquareUpRight className="text-3xl text-white hover:text-primary" />
+              </a>
+            )}
+          </div>
         </motion.div>
       )}
     </motion.div>

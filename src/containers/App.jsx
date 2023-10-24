@@ -16,7 +16,7 @@ import { CV } from "../assets";
 
 const App = () => {
   return (
-    <div className="w-full xl:w-[1600px] py-32 px-10 lg:px-12 pr-4 lg:pr-32">
+    <div className="w-full xl:w-[1300px] 2xl:w-[1600px]  py-32 px-10 lg:px-12 pr-4 lg:pr-32">
       {/* particals container */}
       <ParticlesContainer />
 
